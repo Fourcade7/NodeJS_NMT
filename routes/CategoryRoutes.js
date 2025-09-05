@@ -1,12 +1,17 @@
 
 import express from "express";
+import categoryController from "../controllers/CategoryController.js";
 
-const categoryRouter = express.Router();
-
-
-categoryRouter.get("/user",(req,res)=>{
-    res.send("nima gap USER");
-})
+const router = express.Router();
 
 
-export default categoryRouter;
+
+router.get("/getall",categoryController.getAll);
+router.get("/getby/:id",categoryController.getBy);
+router.post("/add",categoryController.add);
+router.patch("/update/:id",categoryController.update);
+router.delete("/delete/:id",categoryController.delete);
+router.post("/image",categoryController.addImage);
+
+
+export default router;

@@ -5,15 +5,19 @@
         "**/.hg": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        "node_modules": true,
         ".vscode": true,
+        "node_modules": true,
+        "package.json": true,
         "package-lock.json": true,
-        "package.json": true
+        ".gitignore": true,
+        ".env": true
     },
     "hide-files.files": [
-        "node_modules",
         ".vscode",
+        "node_modules",
+        "package.json",
         "package-lock.json",
-        "package.json"
+        ".gitignore",
+        ".env"
     ]
 }
