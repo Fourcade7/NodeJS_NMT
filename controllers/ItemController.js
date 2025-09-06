@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 const prisma = new PrismaClient();
 
-class CategoryController {
+class ItemController {
 
      async  universal(req,res) {
         let data=req.body;
@@ -26,8 +26,8 @@ class CategoryController {
         try{
 
 
-            let categoryList=await prisma.category.findMany();
-            res.send(categoryList);
+            let itemList=await prisma.item.findMany();
+            res.send(itemList);
 
         }catch(error){
             res.status(400).send(error);
@@ -38,16 +38,16 @@ class CategoryController {
 
         try{
             let id=Number(req.params.id);
-            let category=await prisma.category.findUnique({
+            let item=await prisma.item.findUnique({
                 where:{id:id},
                 include:{
-                    products:true
+                    product:true
                 }
             });
-            if(!category){
-                return res.status(404).send({message:"Category not found"});
+            if(!item){
+                return res.status(404).send({message:"item not found"});
             }
-            res.status(200).send(category);
+            res.status(200).send(item);
         }catch(error){
             res.status(400).send(error);
         }
@@ -57,13 +57,14 @@ class CategoryController {
 
     async add(req,res){
         try{
-             let { name } = req.body;
-             let category = await prisma.category.create({
+             let { name,productId } = req.body;
+             let item = await prisma.item.create({
                 data:{
-                    name
+                    name,
+                    productId
                 }
              }); 
-             res.status(201).json(category);  
+             res.status(201).json(item);  
         }catch(error){
              res.status(400).send({ error: error });
         }
@@ -73,8 +74,8 @@ class CategoryController {
         try{
              
              let id=Number(req.params.id);
-             let { name } = req.body;
-             let check=await prisma.category.findUnique({
+             let { name,categoryId } = req.body;
+             let check=await prisma.item.findUnique({
                 where:{
                     id
                 }
@@ -84,14 +85,14 @@ class CategoryController {
                 return res.status(404).send({message:"Not found"})
              }
 
-             let category= await prisma.category.update({
+             let item= await prisma.item.update({
                 where:{id},
                 data:{
                     name
                 }
              })
 
-             res.status(200).send({message:"Category updated"});
+             res.status(200).send({message:"item updated"});
              
 
         }catch(error){
@@ -105,7 +106,7 @@ class CategoryController {
              
              let id=Number(req.params.id);
              
-             let check=await prisma.category.findUnique({
+             let check=await prisma.item.findUnique({
                 where:{
                     id
                 }
@@ -115,11 +116,11 @@ class CategoryController {
                 return res.status(404).send({message:"Not found"})
              }
 
-             let category= await prisma.category.delete({
+             let item= await prisma.item.delete({
                 where:{id}
              })
 
-             res.status(200).send({message:"Category deleted"});
+             res.status(200).send({message:"item deleted"});
              
 
         }catch(error){
@@ -128,27 +129,26 @@ class CategoryController {
     }
 
 
-    /*
-
-       {
-        name: "apple.jpg",       // original fayl nomi
-        data: <Buffer ...>,      // faylning binary ma'lumotlari
-        size: 12345,             // baytlarda o‘lcham
-        mimetype: "image/jpeg",  // faylning MIME turi (jpg, png, pdf va h.k.)
-        encoding: "7bit",        // (ba'zan bo‘ladi)
-        tempFilePath: "",        // agar temp fayl ishlatilsa
-        truncated: false,        // fayl to‘liq yuklandimi yoki yo‘q
-        md5: "9a0364b9e99bb480...", // faylning md5 checksum
-        mv: [Function: mv]       // faylni serverga ko‘chirish funksiyasi
-        }
-
-    */
-
     async addImage(req,res){
 
         try{
 
             let name=req.body.name;
+            let productId=Number(req.body.productId);
+            let count=req.body.count;
+            let ref=req.body.ref;
+            let size=req.body.size;
+            
+
+            let check= await prisma.product.findUnique({
+                where:{
+                    id:productId
+                }
+            })
+
+            if(!check){
+               return res.status(400).send({message:"Product Not found"});
+            }
 
             if(!req.files || !req.files.imageKey){
                return res.status(400).send({message:"No file to upload"});
@@ -168,14 +168,18 @@ class CategoryController {
                     return res.status(500).send({message:err.message});
                 }
 
-                let category = await prisma.category.create({
+                let item = await prisma.item.create({
                     data:{
                         name,
+                        productId,
+                        ref,
+                        size,
+                        count,
                         imgUrl:`http://localhost:3000/uploads/${imageName}`
                     }
                 })
 
-                res.send(category);
+                res.send(item);
 
 
             });
@@ -196,4 +200,4 @@ class CategoryController {
 }
 
 
-export default new CategoryController();
+export default new ItemController();

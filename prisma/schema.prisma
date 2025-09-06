@@ -23,15 +23,15 @@ model Category {
 }
 
 model Product {
-  id          Int           @id @default(autoincrement())
-  name        String
-  imgUrl      String        @default("empty")
-  categoryId  Int
-  category    Category      @relation(fields: [categoryId], references: [id])
-  productItems ProductItem[]
+  id         Int      @id @default(autoincrement())
+  name       String
+  imgUrl     String   @default("empty")
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  items      Item[]
 }
 
-model ProductItem {
+model Item {
   id        Int     @id @default(autoincrement())
   name      String
   ref       String

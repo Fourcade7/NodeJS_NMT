@@ -4,6 +4,7 @@ import fileUpload from "express-fileupload";
 import path from "path";
 import categoryRouter from "./routes/CategoryRoutes.js";
 import productRouter from "./routes/ProductRoutes.js";
+import itemRouter from "./routes/ItemRoutes.js";
 
 
 const app=express();
@@ -21,6 +22,7 @@ app.use(express.json());
 
 app.use("/category",categoryRouter);
 app.use("/product",productRouter);
+app.use("/item",itemRouter);
 
 
 

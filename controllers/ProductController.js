@@ -41,7 +41,7 @@ class ProductController {
             let product=await prisma.product.findUnique({
                 where:{id:id},
                 include:{
-                    productItems:true
+                    items:true
                 }
             });
             if(!product){
