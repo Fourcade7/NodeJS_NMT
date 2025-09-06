@@ -3,6 +3,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import path from "path";
 import categoryRouter from "./routes/CategoryRoutes.js";
+import productRouter from "./routes/ProductRoutes.js";
 
 
 const app=express();
@@ -19,6 +20,7 @@ app.use(express.json());
 //Routes
 
 app.use("/category",categoryRouter);
+app.use("/product",productRouter);
 
 
 

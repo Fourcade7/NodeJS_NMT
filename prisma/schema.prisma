@@ -6,19 +6,38 @@
 
 generator client {
   provider = "prisma-client-js"
- 
 }
 
 datasource db {
   provider = "mysql"
-  url = "mysql://root:root@127.0.0.1:8889/DBNMT"
+  url      = "mysql://root:root@127.0.0.1:8889/DBNMT"
 
   //url      = env("DATABASE_URL")
 }
 
-
 model Category {
-  id     Int    @id @default(autoincrement())
-  name   String
-  imgUrl String @default("emptyurl")
+  id       Int       @id @default(autoincrement())
+  name     String
+  imgUrl   String    @default("empty")
+  products Product[]
+}
+
+model Product {
+  id          Int           @id @default(autoincrement())
+  name        String
+  imgUrl      String        @default("empty")
+  categoryId  Int
+  category    Category      @relation(fields: [categoryId], references: [id])
+  productItems ProductItem[]
+}
+
+model ProductItem {
+  id        Int     @id @default(autoincrement())
+  name      String
+  ref       String
+  size      String
+  count     String
+  imgUrl    String  @default("empty")
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
 }
