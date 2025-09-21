@@ -154,6 +154,10 @@ class CategoryController {
                return res.status(400).send({message:"No file to upload"});
             }
 
+            // if (!req.headers['content-type'] || !req.headers['content-type'].includes('multipart/form-data')) {
+            // return res.status(400).send({ message: "Invalid content type" });
+            // }
+
             // uploads papkaga saqlash
             if (!fs.existsSync("./uploads")) {
                 fs.mkdirSync("./uploads");
