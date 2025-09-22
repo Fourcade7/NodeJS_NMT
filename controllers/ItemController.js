@@ -175,7 +175,7 @@ class ItemController {
                         ref,
                         size,
                         count,
-                        imgUrl:`http://localhost:3000/uploads/${imageName}`
+                        imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
                     }
                 })
 

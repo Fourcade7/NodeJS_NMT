@@ -175,7 +175,7 @@ class CategoryController {
                 let category = await prisma.category.create({
                     data:{
                         name,
-                        imgUrl:`http://localhost:3000/uploads/${imageName}`
+                        imgUrl:`http://http://217.199.252.10:3000/uploads/${imageName}`
                     }
                 })
 
