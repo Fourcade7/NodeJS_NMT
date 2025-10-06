@@ -74,7 +74,7 @@ class ProductController {
         try{
              
              let id=Number(req.params.id);
-             let { name,categoryId } = req.body;
+             let { name,nameuz,nameen,categoryId } = req.body;
              let check=await prisma.product.findUnique({
                 where:{
                     id
@@ -88,7 +88,9 @@ class ProductController {
              let product= await prisma.product.update({
                 where:{id},
                 data:{
-                    name
+                    name,
+                    nameuz,
+                    nameen
                 }
              })
 
@@ -134,6 +136,8 @@ class ProductController {
         try{
 
             let name=req.body.name;
+            let nameuz=req.body.nameuz;
+            let nameen=req.body.nameen;
             let categoryId=Number(req.body.categoryId);
 
             let check= await prisma.category.findUnique({
@@ -167,6 +171,8 @@ class ProductController {
                 let product = await prisma.product.create({
                     data:{
                         name,
+                        nameuz,
+                        nameen,
                         categoryId,
                         imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
                     }

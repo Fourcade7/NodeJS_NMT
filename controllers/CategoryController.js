@@ -73,7 +73,7 @@ class CategoryController {
         try{
              
              let id=Number(req.params.id);
-             let { name } = req.body;
+             let { name,nameuz,nameen } = req.body;
              let check=await prisma.category.findUnique({
                 where:{
                     id
@@ -87,7 +87,9 @@ class CategoryController {
              let category= await prisma.category.update({
                 where:{id},
                 data:{
-                    name
+                    name,
+                    nameuz,
+                    nameen
                 }
              })
 
@@ -149,6 +151,8 @@ class CategoryController {
         try{
 
             let name=req.body.name;
+            let nameuz=req.body.nameuz;
+            let nameen=req.body.nameen;
 
             if(!req.files || !req.files.imageKey){
                return res.status(400).send({message:"No file to upload"});
@@ -175,6 +179,8 @@ class CategoryController {
                 let category = await prisma.category.create({
                     data:{
                         name,
+                        nameuz,
+                        nameen,
                         imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
                     }
                 })

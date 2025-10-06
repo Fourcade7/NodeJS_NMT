@@ -134,6 +134,8 @@ class ItemController {
         try{
 
             let name=req.body.name;
+            let nameuz=req.body.nameuz;
+            let nameen=req.body.nameen;
             let productId=Number(req.body.productId);
             let count=req.body.count;
             let ref=req.body.ref;
@@ -171,6 +173,8 @@ class ItemController {
                 let item = await prisma.item.create({
                     data:{
                         name,
+                        nameuz,
+                        nameen,
                         productId,
                         ref,
                         size,
