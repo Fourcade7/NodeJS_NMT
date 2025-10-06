@@ -74,7 +74,8 @@ class ItemController {
         try{
              
              let id=Number(req.params.id);
-             let { name,categoryId } = req.body;
+             let { name,nameuz,nameen,productId,count,ref,size,categoryId } = req.body;
+             
              let check=await prisma.item.findUnique({
                 where:{
                     id
@@ -85,12 +86,48 @@ class ItemController {
                 return res.status(404).send({message:"Not found"})
              }
 
-             let item= await prisma.item.update({
-                where:{id},
-                data:{
-                    name
-                }
-             })
+              if(!req.files || !req.files.imageKey){
+               //return res.status(400).send({message:"No file to upload"});
+               let item = await prisma.item.update({
+                            where:{id},
+                            data:{
+                                name,
+                                nameuz,
+                                nameen,
+                                count,
+                                ref,
+                                size
+                            }
+                 })
+
+             }else{
+                    let imageKey = req.files.imageKey;
+                    let imageName=imageKey.name.trim().replaceAll(" ","");
+                    
+                    let uploadPath="./uploads/"+imageName;
+
+                    imageKey.mv(uploadPath, async (err)=>{
+                        if(err){
+                            return res.status(500).send({message:err.message});
+                        }
+
+                        let item = await prisma.item.update({
+                            where:{id},
+                            data:{
+                                name,
+                                nameuz,
+                                nameen,
+                                count,
+                                ref,
+                                size,
+                                imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
+                            }
+                        })
+                        //res.send(category);
+                    });
+             }
+
+             
 
              res.status(200).send({message:"item updated"});
              

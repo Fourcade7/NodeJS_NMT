@@ -72,8 +72,8 @@ class CategoryController {
     async update(req,res){
         try{
              
-             let id=Number(req.params.id);
-             let { name,nameuz,nameen } = req.body;
+            let id=Number(req.params.id);
+            let { name,nameuz,nameen } = req.body;
              let check=await prisma.category.findUnique({
                 where:{
                     id
@@ -84,15 +84,45 @@ class CategoryController {
                 return res.status(404).send({message:"Not found"})
              }
 
-             let category= await prisma.category.update({
-                where:{id},
-                data:{
-                    name,
-                    nameuz,
-                    nameen
-                }
-             })
+            if(!req.files || !req.files.imageKey){
+               //return res.status(400).send({message:"No file to upload"});
+               let category = await prisma.category.update({
+                            where:{id},
+                            data:{
+                                name,
+                                nameuz,
+                                nameen,
+                            }
+                 })
 
+             }else{
+                    let imageKey = req.files.imageKey;
+                    let imageName=imageKey.name.trim().replaceAll(" ","");
+                    
+                    let uploadPath="./uploads/"+imageName;
+
+                    imageKey.mv(uploadPath, async (err)=>{
+                        if(err){
+                            return res.status(500).send({message:err.message});
+                        }
+
+                        let category = await prisma.category.update({
+                            where:{id},
+                            data:{
+                                name,
+                                nameuz,
+                                nameen,
+                                imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
+                            }
+                        })
+                        //res.send(category);
+                    });
+
+             }
+
+            
+
+            
              res.status(200).send({message:"Category updated"});
              
 

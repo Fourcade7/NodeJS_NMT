@@ -85,14 +85,41 @@ class ProductController {
                 return res.status(404).send({message:"Not found"})
              }
 
-             let product= await prisma.product.update({
-                where:{id},
-                data:{
-                    name,
-                    nameuz,
-                    nameen
-                }
-             })
+             if(!req.files || !req.files.imageKey){
+               //return res.status(400).send({message:"No file to upload"});
+               let product = await prisma.product.update({
+                            where:{id},
+                            data:{
+                                name,
+                                nameuz,
+                                nameen,
+                            }
+                 })
+
+             }else{
+                    let imageKey = req.files.imageKey;
+                    let imageName=imageKey.name.trim().replaceAll(" ","");
+                    
+                    let uploadPath="./uploads/"+imageName;
+
+                    imageKey.mv(uploadPath, async (err)=>{
+                        if(err){
+                            return res.status(500).send({message:err.message});
+                        }
+
+                        let product = await prisma.product.update({
+                            where:{id},
+                            data:{
+                                name,
+                                nameuz,
+                                nameen,
+                                imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
+                            }
+                        })
+                        //res.send(category);
+                    });
+             }
+
 
              res.status(200).send({message:"Product updated"});
              
