@@ -113,7 +113,7 @@ class ProductController {
                                 name,
                                 nameuz,
                                 nameen,
-                                imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
+                                imgUrl:`http://95.46.96.153:3000/uploads/${imageName}`
                             }
                         })
                         //res.send(category);
@@ -201,7 +201,7 @@ class ProductController {
                         nameuz,
                         nameen,
                         categoryId,
-                        imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
+                        imgUrl:`http://95.46.96.153:3000/uploads/${imageName}`
                     }
                 })
 

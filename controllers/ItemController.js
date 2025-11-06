@@ -120,7 +120,7 @@ class ItemController {
                                 count,
                                 ref,
                                 size,
-                                imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
+                                imgUrl:`http://95.46.96.153:3000/uploads/${imageName}`
                             }
                         })
                         //res.send(category);
@@ -216,7 +216,7 @@ class ItemController {
                         ref,
                         size,
                         count,
-                        imgUrl:`http://217.199.252.10:3000/uploads/${imageName}`
+                        imgUrl:`http://95.46.96.153:3000/uploads/${imageName}`
                     }
                 })
 
